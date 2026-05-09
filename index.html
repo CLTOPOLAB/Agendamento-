@@ -1,190 +1,313 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <title>Agendamento – Topografia</title>
+
 <style>
 * { box-sizing: border-box; }
 
-body {
-  margin: 0;
-  font-family: system-ui, Arial, sans-serif;
-  background: #111;
-  color: #111;
+body{
+  margin:0;
+  font-family:system-ui, Arial, sans-serif;
+  background:#111;
 }
 
-.wrapper {
-  max-width: 880px;
-  margin: 60px auto;
-  background: #f7f7f7;
-  border-radius: 14px;
-  padding: 40px;
+/* ================= LOGIN ================= */
+
+.login-screen{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
 }
 
-h1 {
-  text-align: center;
-  letter-spacing: 3px;
-  font-weight: 500;
-  margin-bottom: 40px;
+.login-box{
+  width:100%;
+  max-width:380px;
+  background:#f7f7f7;
+  border-radius:14px;
+  padding:35px;
 }
 
-.layout {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
+.login-box h2{
+  text-align:center;
+  margin-bottom:30px;
+  letter-spacing:2px;
 }
 
-label {
-  font-size: 14px;
-  font-weight: 600;
-  margin-top: 18px;
-  display: block;
+.login-box label{
+  display:block;
+  margin-top:15px;
+  font-size:14px;
+  font-weight:600;
 }
 
-input, textarea {
-  width: 100%;
-  margin-top: 6px;
-  padding: 10px;
-  border-radius: 6px;
-  border: 1px solid #bbb;
-  font-size: 14px;
-  background: #fff;
-  outline: none;
-  transition: border 0.2s;
+.login-box input{
+  width:100%;
+  margin-top:6px;
+  padding:12px;
+  border:1px solid #bbb;
+  border-radius:8px;
+  outline:none;
+  font-size:14px;
 }
 
-input:focus, textarea:focus {
-  border-color: #111;
+.login-box button{
+  width:100%;
+  margin-top:25px;
+  padding:14px;
+  border:none;
+  border-radius:8px;
+  background:#111;
+  color:#fff;
+  cursor:pointer;
+  font-weight:600;
 }
 
-textarea { resize: none; }
-
-.calendar {
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  padding: 16px;
-  background: #fff;
+.login-erro{
+  margin-top:18px;
+  background:#fce8e6;
+  color:#7b1a1a;
+  border:1px solid #e06666;
+  padding:12px;
+  border-radius:8px;
+  display:none;
+  font-size:14px;
 }
 
-.cal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-  font-weight: 600;
+/* ================= SISTEMA ================= */
+
+.wrapper{
+  max-width:880px;
+  margin:60px auto;
+  background:#f7f7f7;
+  border-radius:14px;
+  padding:40px;
+  display:none;
 }
 
-.cal-header button {
-  background: none;
-  border: none;
-  font-size: 18px;
-  cursor: pointer;
-  padding: 4px 10px;
-  border-radius: 4px;
-  transition: background 0.15s;
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:25px;
 }
 
-.cal-header button:hover { background: #e3e3e3; }
-
-.days, .dates {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  text-align: center;
+.logout{
+  background:#111;
+  color:#fff;
+  border:none;
+  padding:10px 16px;
+  border-radius:8px;
+  cursor:pointer;
 }
 
-.days {
-  font-size: 12px;
-  font-weight: 600;
-  color: #555;
-  margin-bottom: 4px;
+h1{
+  text-align:center;
+  letter-spacing:3px;
+  font-weight:500;
+  margin-bottom:40px;
 }
 
-.dates button {
-  margin: 3px;
-  padding: 9px 0;
-  border: none;
-  border-radius: 6px;
-  background: #e3e3e3;
-  cursor: pointer;
-  font-size: 13px;
-  transition: background 0.15s;
+.layout{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:40px;
 }
 
-.dates button:hover { background: #ccc; }
-
-.dates button.selected {
-  background: #111;
-  color: #fff;
+label{
+  font-size:14px;
+  font-weight:600;
+  margin-top:18px;
+  display:block;
 }
 
-.dates button:disabled {
-  opacity: 0.35;
-  cursor: not-allowed;
+input, textarea{
+  width:100%;
+  margin-top:6px;
+  padding:10px;
+  border-radius:6px;
+  border:1px solid #bbb;
+  font-size:14px;
+  background:#fff;
+  outline:none;
 }
 
-.actions {
-  margin-top: 35px;
-  display: flex;
-  gap: 15px;
+textarea{
+  resize:none;
 }
 
-.actions button {
-  flex: 1;
-  padding: 14px;
-  border-radius: 8px;
-  border: none;
-  font-size: 14px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: opacity 0.2s;
+.calendar{
+  border:1px solid #ccc;
+  border-radius:10px;
+  padding:16px;
+  background:#fff;
 }
 
-.actions button:hover { opacity: 0.85; }
-.actions button:disabled { opacity: 0.5; cursor: not-allowed; }
-
-.agendar  { background: #111; color: #fff; }
-.cancelar { background: #ccc; color: #111; }
-
-.msg {
-  display: none;
-  margin-top: 25px;
-  padding: 14px 18px;
-  border-radius: 8px;
-  font-size: 14px;
+.cal-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:10px;
+  font-weight:600;
 }
 
-.msg.sucesso  { background: #e6f4ea; border: 1px solid #6aa84f; color: #2d6a2d; }
-.msg.cancelado { background: #fce8e6; border: 1px solid #e06666; color: #7b1a1a; }
-.msg.erro     { background: #fff3cd; border: 1px solid #f0a500; color: #7a4f00; }
+.cal-header button{
+  background:none;
+  border:none;
+  font-size:18px;
+  cursor:pointer;
+  padding:4px 10px;
+  border-radius:4px;
+}
+
+.days,.dates{
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  text-align:center;
+}
+
+.days{
+  font-size:12px;
+  font-weight:600;
+  color:#555;
+  margin-bottom:4px;
+}
+
+.dates button{
+  margin:3px;
+  padding:9px 0;
+  border:none;
+  border-radius:6px;
+  background:#e3e3e3;
+  cursor:pointer;
+}
+
+.dates button.selected{
+  background:#111;
+  color:#fff;
+}
+
+.dates button:disabled{
+  opacity:0.35;
+  cursor:not-allowed;
+}
+
+.actions{
+  margin-top:35px;
+  display:flex;
+  gap:15px;
+}
+
+.actions button{
+  flex:1;
+  padding:14px;
+  border-radius:8px;
+  border:none;
+  font-size:14px;
+  cursor:pointer;
+  font-weight:600;
+}
+
+.agendar{
+  background:#111;
+  color:#fff;
+}
+
+.cancelar{
+  background:#ccc;
+  color:#111;
+}
+
+.msg{
+  display:none;
+  margin-top:25px;
+  padding:14px 18px;
+  border-radius:8px;
+  font-size:14px;
+}
+
+.msg.sucesso{
+  background:#e6f4ea;
+  border:1px solid #6aa84f;
+  color:#2d6a2d;
+}
+
+.msg.cancelado{
+  background:#fce8e6;
+  border:1px solid #e06666;
+  color:#7b1a1a;
+}
+
+.msg.erro{
+  background:#fff3cd;
+  border:1px solid #f0a500;
+  color:#7a4f00;
+}
 </style>
 </head>
 
 <body>
 
-<div class="wrapper">
+<!-- ================= LOGIN ================= -->
+
+<div class="login-screen" id="loginScreen">
+
+  <div class="login-box">
+
+    <h2>LOGIN</h2>
+
+    <label>Usuário</label>
+    <input type="text" id="loginUser" placeholder="Digite o usuário">
+
+    <label>Senha</label>
+    <input type="password" id="loginPass" placeholder="Digite a senha">
+
+    <button onclick="fazerLogin()">Entrar</button>
+
+    <div class="login-erro" id="loginErro">
+      Usuário ou senha incorretos.
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ================= SISTEMA ================= -->
+
+<div class="wrapper" id="sistema">
+
+  <div class="topbar">
+    <strong>Painel de Agendamento</strong>
+    <button class="logout" onclick="logout()">Sair</button>
+  </div>
+
   <h1>AGENDAMENTO</h1>
 
   <div class="layout">
 
-    <!-- Coluna esquerda -->
     <div>
+
       <label for="professor">Professor</label>
-      <input id="professor" type="text" placeholder="Nome do professor">
+      <input id="professor" type="text">
 
       <label for="email">E-mail</label>
-      <input id="email" type="email" placeholder="professor@email.com">
+      <input id="email" type="email">
 
       <label for="hora">Hora da aula</label>
       <input id="hora" type="time">
 
       <label for="equipamentos">Equipamentos e Quantidade</label>
-      <textarea id="equipamentos" rows="6"
-        placeholder="Teodolito – 2&#10;Mira – 3&#10;Nível – 1"></textarea>
+      <textarea id="equipamentos" rows="6"></textarea>
+
     </div>
 
-    <!-- Calendário -->
+    <!-- CALENDÁRIO -->
+
     <div class="calendar">
+
       <div class="cal-header">
         <button id="btnPrev" onclick="mudarMes(-1)">‹</button>
         <span id="mesAno"></span>
@@ -192,137 +315,275 @@ textarea { resize: none; }
       </div>
 
       <div class="days">
-        <div>DOM</div><div>SEG</div><div>TER</div>
-        <div>QUA</div><div>QUI</div><div>SEX</div><div>SÁB</div>
+        <div>DOM</div>
+        <div>SEG</div>
+        <div>TER</div>
+        <div>QUA</div>
+        <div>QUI</div>
+        <div>SEX</div>
+        <div>SÁB</div>
       </div>
 
       <div class="dates" id="datas"></div>
+
     </div>
 
   </div>
 
   <div class="actions">
-    <button class="agendar"  id="btnAgendar"  onclick="enviar('agendar')">Agendar</button>
-    <button class="cancelar" id="btnCancelar" onclick="enviar('cancelar')">Cancelar</button>
+    <button class="agendar" onclick="enviar('agendar')">Agendar</button>
+    <button class="cancelar" onclick="enviar('cancelar')">Cancelar</button>
   </div>
 
   <div class="msg" id="msg"></div>
+
 </div>
 
 <script>
-  // ============================================================
-  // ⚙️  CONFIGURAÇÃO — cole aqui a URL do seu Google Apps Script
-  // ============================================================
-  const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbzpnBOXAaS_zpENa4lEzAcZjJ_ps7lHiAlHm4apnMHtayf5qEBp4gwD3HAavz2eCaw8Tw/exec";
-  // ============================================================
 
-  const meses = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho",
-                  "Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
+/* =========================================================
+   LOGIN
+========================================================= */
 
-  const hoje  = new Date();
-  let mes = hoje.getMonth();
-  let ano = hoje.getFullYear();
-  let dataSel = "";
+// usuário e senha
+const USUARIO = "admin";
+const SENHA   = "123456";
 
-  function render() {
-    document.getElementById("mesAno").textContent = `${meses[mes]} ${ano}`;
-    const container = document.getElementById("datas");
-    container.innerHTML = "";
+function fazerLogin(){
 
-    const primeiro = new Date(ano, mes, 1).getDay();
-    const total    = new Date(ano, mes + 1, 0).getDate();
+  const usuario = document.getElementById("loginUser").value;
+  const senha   = document.getElementById("loginPass").value;
 
-    for (let i = 0; i < primeiro; i++) {
-      container.appendChild(document.createElement("div"));
-    }
+  if(usuario === USUARIO && senha === SENHA){
 
-    for (let d = 1; d <= total; d++) {
-      const btn = document.createElement("button");
-      btn.textContent = d;
+    localStorage.setItem("logado", "sim");
 
-      // Desabilita datas passadas
-      const dataBtn = new Date(ano, mes, d);
-      dataBtn.setHours(0,0,0,0);
-      const hj = new Date(); hj.setHours(0,0,0,0);
-      if (dataBtn < hj) { btn.disabled = true; }
+    document.getElementById("loginScreen").style.display = "none";
+    document.getElementById("sistema").style.display = "block";
 
-      btn.onclick = () => {
-        container.querySelectorAll("button").forEach(x => x.classList.remove("selected"));
-        btn.classList.add("selected");
-        dataSel = `${String(d).padStart(2,"0")}/${String(mes+1).padStart(2,"0")}/${ano}`;
-      };
+  } else {
 
-      container.appendChild(btn);
-    }
+    document.getElementById("loginErro").style.display = "block";
 
-    // Bloqueia navegação para meses anteriores ao atual
-    document.getElementById("btnPrev").disabled =
-      (ano === hoje.getFullYear() && mes === hoje.getMonth());
   }
 
-  function mudarMes(v) {
-    mes += v;
-    if (mes < 0)  { mes = 11; ano--; }
-    if (mes > 11) { mes = 0;  ano++; }
-    dataSel = "";
-    render();
+}
+
+function logout(){
+
+  localStorage.removeItem("logado");
+
+  location.reload();
+
+}
+
+window.onload = () => {
+
+  const logado = localStorage.getItem("logado");
+
+  if(logado === "sim"){
+
+    document.getElementById("loginScreen").style.display = "none";
+    document.getElementById("sistema").style.display = "block";
+
   }
+
+};
+
+/* =========================================================
+   CALENDÁRIO
+========================================================= */
+
+const URL_SCRIPT = "COLE_SUA_URL_AQUI";
+
+const meses = [
+  "Janeiro","Fevereiro","Março","Abril","Maio","Junho",
+  "Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"
+];
+
+const hoje = new Date();
+
+let mes = hoje.getMonth();
+let ano = hoje.getFullYear();
+let dataSel = "";
+
+function render(){
+
+  document.getElementById("mesAno").textContent =
+    `${meses[mes]} ${ano}`;
+
+  const container = document.getElementById("datas");
+
+  container.innerHTML = "";
+
+  const primeiro = new Date(ano, mes, 1).getDay();
+  const total = new Date(ano, mes + 1, 0).getDate();
+
+  for(let i = 0; i < primeiro; i++){
+
+    container.appendChild(document.createElement("div"));
+
+  }
+
+  for(let d = 1; d <= total; d++){
+
+    const btn = document.createElement("button");
+
+    btn.textContent = d;
+
+    const dataBtn = new Date(ano, mes, d);
+
+    dataBtn.setHours(0,0,0,0);
+
+    const hj = new Date();
+
+    hj.setHours(0,0,0,0);
+
+    if(dataBtn < hj){
+
+      btn.disabled = true;
+
+    }
+
+    btn.onclick = () => {
+
+      container.querySelectorAll("button")
+        .forEach(x => x.classList.remove("selected"));
+
+      btn.classList.add("selected");
+
+      dataSel =
+        `${String(d).padStart(2,"0")}/` +
+        `${String(mes+1).padStart(2,"0")}/` +
+        `${ano}`;
+
+    };
+
+    container.appendChild(btn);
+
+  }
+
+  document.getElementById("btnPrev").disabled =
+    (ano === hoje.getFullYear() &&
+     mes === hoje.getMonth());
+
+}
+
+function mudarMes(v){
+
+  mes += v;
+
+  if(mes < 0){
+
+    mes = 11;
+    ano--;
+
+  }
+
+  if(mes > 11){
+
+    mes = 0;
+    ano++;
+
+  }
+
+  dataSel = "";
 
   render();
 
-  // ── Envio ──────────────────────────────────────────────────
-  function mostrarMsg(texto, tipo) {
-    const el = document.getElementById("msg");
-    el.textContent = texto;
-    el.className = `msg ${tipo}`;
-    el.style.display = "block";
-    setTimeout(() => { el.style.display = "none"; }, 6000);
+}
+
+render();
+
+/* =========================================================
+   ENVIO
+========================================================= */
+
+function mostrarMsg(texto, tipo){
+
+  const el = document.getElementById("msg");
+
+  el.textContent = texto;
+
+  el.className = `msg ${tipo}`;
+
+  el.style.display = "block";
+
+  setTimeout(() => {
+
+    el.style.display = "none";
+
+  }, 6000);
+
+}
+
+async function enviar(tipo){
+
+  const professor =
+    document.getElementById("professor").value.trim();
+
+  const email =
+    document.getElementById("email").value.trim();
+
+  const hora =
+    document.getElementById("hora").value;
+
+  const equipamentos =
+    document.getElementById("equipamentos").value.trim();
+
+  if(!professor || !email || !hora || !dataSel){
+
+    mostrarMsg(
+      "⚠️ Preencha todos os campos.",
+      "erro"
+    );
+
+    return;
+
   }
 
-  async function enviar(tipo) {
-    const professor   = document.getElementById("professor").value.trim();
-    const email       = document.getElementById("email").value.trim();
-    const hora        = document.getElementById("hora").value;
-    const equipamentos = document.getElementById("equipamentos").value.trim();
+  const payload = {
+    tipo,
+    professor,
+    email,
+    data: dataSel,
+    hora,
+    equipamentos
+  };
 
-    if (!professor || !email || !hora || !dataSel) {
-      mostrarMsg("⚠️ Preencha todos os campos e selecione uma data.", "erro");
-      return;
-    }
+  try{
 
-    const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    if (!emailValido) {
-      mostrarMsg("⚠️ E-mail inválido.", "erro");
-      return;
-    }
+    await fetch(URL_SCRIPT, {
 
-    const btnA = document.getElementById("btnAgendar");
-    const btnC = document.getElementById("btnCancelar");
-    btnA.disabled = btnC.disabled = true;
-    btnA.textContent = "Enviando...";
+      method:"POST",
 
-    const payload = { tipo, professor, email, data: dataSel, hora, equipamentos };
+      headers:{
+        "Content-Type":"application/json"
+      },
 
-    try {
-      await fetch(URL_SCRIPT, {
-        method: "POST",
-        body: JSON.stringify(payload)
-      });
+      body:JSON.stringify(payload)
 
-      if (tipo === "agendar") {
-        mostrarMsg("✅ Agendamento realizado com sucesso! A equipe foi notificada por e-mail.", "sucesso");
-      } else {
-        mostrarMsg("❌ Agendamento cancelado. A equipe foi notificada.", "cancelado");
-      }
+    });
 
-    } catch (err) {
-      console.error(err);
-      mostrarMsg("⚠️ Erro ao enviar. Verifique sua conexão e tente novamente.", "erro");
-    } finally {
-      btnA.disabled = btnC.disabled = false;
-      btnA.textContent = "Agendar";
-    }
+    mostrarMsg(
+      tipo === "agendar"
+        ? "✅ Agendamento realizado."
+        : "❌ Agendamento cancelado.",
+      tipo === "agendar"
+        ? "sucesso"
+        : "cancelado"
+    );
+
+  } catch(err){
+
+    mostrarMsg(
+      "⚠️ Erro ao enviar.",
+      "erro"
+    );
+
   }
+
+}
 </script>
 
 </body>
